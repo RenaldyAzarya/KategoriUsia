@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KATEGORI USIA</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #9cadce;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            max-width: 400px;
+            width: 100%;
+            background-color: white;
+            padding: 20px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            text-align: center; /* Menyelaraskan teks di tengah */
+        }
+        .form-group .radio-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .form-group .radio-group label {
+            margin: 0 10px 0 0;
+        }
+        .form-group .radio-group input[type="radio"] {
+            margin-left: 10px;
+            margin-bottom: 3px;
+        }
+        .form-group button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .form-group button:hover {
+            background-color: #218838;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            text-align: center;
+        }
+    </style>
+    <script>
+        function categorizeAge(months, years) {
+            let totalMonths = years * 12 + months;
+
+            if (totalMonths < 0) {
+                return "Invalid age";
+            } else if (totalMonths <= 12) {
+                return "Bayi";
+            } else if (totalMonths <= 60) {
+                return "Balita";
+            } else if (totalMonths <= 144) {
+                return "Anak-anak";
+            } else if (totalMonths <= 204) {
+                return "Remaja";
+            } else if (totalMonths <= 768) {
+                return "Dewasa";
+            } else {
+                return "Lanjut Usia";
+            }
+        }
+
+        function handleSubmit(event) {
+            event.preventDefault();
+            let age = parseInt(document.querySelector('input[name="age"]').value);
+            let ageType = document.querySelector('input[name="age_type"]:checked').value;
+            let category;
+
+            if (isNaN(age) || age < 0) {
+                category = "Input tidak valid. Silakan masukkan angka positif.";
+            } else {
+                if (ageType === 'months') {
+                    category = categorizeAge(age, 0);
+                } else {
+                    category = categorizeAge(0, age);
+                }
+            }
+
+            document.getElementById('result').innerHTML = `Usia Anda tergolong dalam kategori: <strong>${category}</strong>`;
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h2 style="text-align: center;">KATEGORI USIA</h2>
+        <form onsubmit="handleSubmit(event)">
+            <div class="form-group">
+                <label> masukkan usia anda:</label>
+                <input type="text" name="age" required>
+            </div>
+            <div class="form-group">
+                <label>Tipe Usia:</label>
+                <div class="radio-group">
+                    <input type="radio" name="age_type" value="months" required>
+                    <label>Bulan</label>
+                    <input type="radio" name="age_type" value="years" required>
+                    <label>Tahun</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+        <div id="result" class="result"></div>
+    </div>
+</body>
+</html>
